@@ -93,6 +93,28 @@ public class TaskManager {
             System.out.println(subtask + " " + subtasks.get(subtask).toString());
         }
     }
+    public void deleteAllTasks(){
+        for (Task task: tasks.values() ){
+            taskTypes.remove(task.getId());
+        }
+        tasks.clear();
+    }
+    public void deleteAllEpics() {
+        for (Epic epic: epics.values() ){
+            taskTypes.remove(epic.getId());
+        }
+        epics.clear();
+    }
+    public void deleteAllSubtasks() {
+        for (SubTask subtask: subtasks.values() ){
+            taskTypes.remove(subtask.getId());
+        }
+        subtasks.clear();
+        for (Epic epic: epics.values()) {
+            calculateEpicStatus(epic.getId());
+        }
+
+    }
 
     public void getById(int id) {
         if (taskTypes.get(id) == TaskType.TASK){
@@ -109,6 +131,9 @@ public class TaskManager {
         int newStatus = 0;
         int inProgressStatus = 0;
         int doneStatus = 0;
+        if (epic.getSubtasks().isEmpty()) {
+            epic.setStatus(Status.NEW);
+        }
         for (SubTask subtask: epic.getSubtasks().values()) {
             if (subtask.getStatus() == Status.NEW) {
                 newStatus++;
@@ -125,6 +150,10 @@ public class TaskManager {
             return;
         } else if (newStatus == epic.getSubtasks().size() && doneStatus == 0) {
             epics.get(epicId).setStatus(Status.NEW);
+            return;
+        } else {
+            epics.get(epicId).setStatus(Status.IN_PROGRESS);
         }
+
     }
 }
