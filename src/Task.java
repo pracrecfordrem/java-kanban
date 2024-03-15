@@ -3,13 +3,27 @@ import java.util.Objects;
 
 public class Task {
 
-    private String name;
-    private String description;
-    private int id;
-    private Status status;
-    private TaskType taskType;
+    protected String name;
+    protected String description;
+    protected int id;
+    protected Status status;
+    protected TaskType taskType;
 
+    public Task(String name, String description, Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = TaskManager.getCountTasks() + 1;
+        this.taskType = TaskType.TASK;
+    }
 
+    public Task(String name, String description, Status status, int id) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+        this.taskType = TaskType.TASK;
+    }
 
     public Task(String name, String description, Status status, TaskType taskType) {
         this.name = name;
@@ -19,13 +33,14 @@ public class Task {
         this.taskType = taskType;
     }
 
-    public Task(String name, String description, Status status) {
+    public Task(String name, String description, Status status, TaskType taskType, int id) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = TaskManager.getCountTasks() + 1;
-        this.taskType = TaskType.TASK;
+        this.id = id;
+        this.taskType = taskType;
     }
+
 
     public Status getStatus() {
         return status;

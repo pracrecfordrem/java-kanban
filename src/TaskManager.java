@@ -23,7 +23,9 @@ public class TaskManager {
         tasks.put(++countTasks,task);
         taskTypes.put(countTasks, TaskType.TASK);
     }
-
+    public void updateTask (int taskId, Task updatedtask){
+        tasks.put(taskId,updatedtask);
+    }
     public void createEpic (Epic epic) {
         epics.put(++countTasks, epic);
         taskTypes.put(countTasks, TaskType.EPIC);
@@ -32,20 +34,38 @@ public class TaskManager {
     public void createSubtask (SubTask subtask) {
         subtasks.put(++countTasks,subtask);
         taskTypes.put(countTasks, TaskType.SUBTASK);
+        epics.get(subtask.getEpicId()).addSubtasks(subtask);
+    }
+
+    public void updateSubtask (int subTaskId, SubTask subTask) {
+        subtasks.put(subTaskId,subTask);
+        //пересчитать статус по эпику этой подзадачи
     }
 
     public void deleteTask (int id) {
-        /*if ()
-        if(tasks.get(id).getStatus().name().equals("EPIC")) {
-            for (int key: tasks.keySet()) {
-                if (tasks.get(key).getStatus().name().equals("SUBTASK") && (SubTask)tasks.get(key).getEpicId())
+        if (taskTypes.get(id) == TaskType.TASK){
+            tasks.remove(id);
+        } else if (taskTypes.get(id) == TaskType.SUBTASK) {
+            subtasks.remove(id);
+            //пересчитать статус по эпику этой подзадачи
+        } else {
+            for (int key: subtasks.keySet()) {
+                if (subtasks.get(key).getEpicId() == id) {
+                    subtasks.remove(key);
+                    countTasks--;
+                }
             }
+            epics.remove(id);
         }
-        tasks.remove(id);
-*/
         countTasks--;
     }
 
-
-
+//    public void changeEpicStatus(int epicId, Status newStatus) {
+//        Status status = Status.NEW;
+//        for (SubTask subTask: subtasks.values()) {
+//            if (subTask.epicId == epicId) {
+//                if subTask.getStatus() == newStatus
+//            }
+//        }
+//    }
 }
