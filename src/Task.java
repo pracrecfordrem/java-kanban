@@ -59,7 +59,10 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, status);
+        int hash = 17;
+        hash = hash + id + Objects.hash(name, description, id, status);
+        hash = hash * 31;
+        return hash;
     }
 
     @Override
