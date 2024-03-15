@@ -41,6 +41,7 @@ public class TaskManager {
         subtasks.put(++countTasks,subtask);
         taskTypes.put(countTasks, TaskType.SUBTASK);
         epics.get(subtask.getEpicId()).addSubtasks(subtask);
+        calculateEpicStatus(subtask.getEpicId());
     }
 
     public void updateSubtask (int subTaskId, SubTask subtask) {
@@ -119,8 +120,11 @@ public class TaskManager {
                 doneStatus++;
             }
         }
-        if (doneStatus == epic.getSubtasks().size()) {
+        if (doneStatus == epic.getSubtasks().size() && newStatus == 0) {
             epics.get(epicId).setStatus(Status.DONE);
+            return;
+        } else if (newStatus == epic.getSubtasks().size() && doneStatus == 0) {
+            epics.get(epicId).setStatus(Status.NEW);
         }
     }
 }
