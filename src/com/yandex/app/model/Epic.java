@@ -1,19 +1,21 @@
+package com.yandex.app.model;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Epic extends Task{
-    private HashMap<Integer, SubTask> subtasks;
+    private final ArrayList<Integer> subtaskIds;
     public Epic(String name, String description) {
-        super(name, description, Status.NEW, TaskType.EPIC);
-        subtasks = new HashMap<>();
+        super(name, description, Status.NEW);
+        subtaskIds = new ArrayList<>();
     }
 
-    public HashMap<Integer, SubTask> getSubtasks() {
-        return subtasks;
+    public ArrayList<Integer> getSubTaskIds() {
+        return subtaskIds;
     }
 
-    public void addSubtasks(SubTask subTask) {
-        this.subtasks.put(subTask.getId(),subTask);
+    public void addSubtasks(int subtaskid) {
+        this.subtaskIds.add(subtaskid);
     }
 
     public void setStatus(Status status) {
@@ -22,22 +24,20 @@ public class Epic extends Task{
 
     @Override
     public String toString() {
-        if (subtasks.isEmpty()) {
-            return "Epic{" +
+        if (subtaskIds.isEmpty()) {
+            return "com.yandex.app.model.Epic{" +
                     "name='" + name + '\'' +
                     ", description='" + description + '\'' +
                     ", id=" + id +
                     ", status=" + status +
-                    ", tasktype=" + taskType +
                     "}";
         }
-        return "Epic{" +
+        return "com.yandex.app.model.Epic{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                ", tasktype=" + taskType +
-                ", subtasks=" + subtasks +
+                ", subtasks=" + subtaskIds +
                 '}';
     }
 }

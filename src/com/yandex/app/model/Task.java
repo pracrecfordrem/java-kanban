@@ -1,4 +1,7 @@
-import java.lang.reflect.Type;
+package com.yandex.app.model;
+
+import com.yandex.app.service.TaskManager;
+
 import java.util.Objects;
 
 public class Task {
@@ -7,14 +10,12 @@ public class Task {
     protected String description;
     protected int id;
     protected Status status;
-    protected TaskType taskType;
 
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.id = TaskManager.getCountTasks() + 1;
-        this.taskType = TaskType.TASK;
     }
 
     public Task(String name, String description, Status status, int id) {
@@ -22,23 +23,6 @@ public class Task {
         this.description = description;
         this.status = status;
         this.id = id;
-        this.taskType = TaskType.TASK;
-    }
-
-    public Task(String name, String description, Status status, TaskType taskType) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.id = TaskManager.getCountTasks() + 1;
-        this.taskType = taskType;
-    }
-
-    public Task(String name, String description, Status status, TaskType taskType, int id) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.id = id;
-        this.taskType = taskType;
     }
 
 
@@ -67,12 +51,11 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "com.yandex.app.model.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                ", tasktype=" + taskType +
                 '}';
     }
 }
