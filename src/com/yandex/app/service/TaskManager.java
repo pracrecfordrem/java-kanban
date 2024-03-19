@@ -78,25 +78,16 @@ public class TaskManager {
         }
     }
 
-    public void showOnlyTasks() {
-        System.out.println("Список задач (id, task)");
-        for (int key:tasks.keySet()) {
-            System.out.println(key + " " + tasks.get(key).toString());
-        }
+    public Object[] getOnlyTasks() {
+        return tasks.values().toArray();
     }
 
-    public void showOnlySubtasks() {
-        System.out.println("Список подзадач (id, subtask)");
-        for (int subtask:subtasks.keySet()) {
-            System.out.println(subtask + " " + subtasks.get(subtask).toString());
-        }
+    public Object[] getOnlySubtasks() {
+        return subtasks.values().toArray();
     }
 
-    public void showOnlyEpics() {
-        System.out.println("Список эпиков (id, epic)");
-        for (int epic:epics.keySet()) {
-            System.out.println(epic + " " + epics.get(epic).toString());
-        }
+    public Object[] getOnlyEpics() {
+        return epics.values().toArray();
     }
 
     public void deleteAllTasks(){

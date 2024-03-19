@@ -1,6 +1,7 @@
 package com.yandex.app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Main {
@@ -38,10 +39,9 @@ public class Main {
 //        taskManager.createSubtask(new com.yandex.app.model.SubTask("Дойти до остановки", "БЫСТРО",com.yandex.app.model.Status.DONE,2));
 //        taskManager.showAllTasks();
 //        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//        taskManager.deleteAllTasks();
-//        taskManager.deleteAllEpics();
-//        taskManager.deleteAllSubtasks();
-//        taskManager.showAllTasks();
+//        System.out.println(Arrays.toString(taskManager.getOnlyTasks()));
+//        System.out.println(Arrays.toString(taskManager.getOnlyEpics()));
+//        System.out.println(Arrays.toString(taskManager.getOnlySubtasks()));
 
     }
 }
