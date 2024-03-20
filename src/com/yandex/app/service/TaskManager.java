@@ -2,6 +2,7 @@ package com.yandex.app.service;
 
 import com.yandex.app.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
@@ -78,16 +79,16 @@ public class TaskManager {
         }
     }
 
-    public Object[] getOnlyTasks() {
-        return tasks.values().toArray();
+    public ArrayList<Task> getOnlyTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public Object[] getOnlySubtasks() {
-        return subtasks.values().toArray();
+    public ArrayList<SubTask> getOnlySubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public Object[] getOnlyEpics() {
-        return epics.values().toArray();
+    public ArrayList<Epic> getOnlyEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     public void deleteAllTasks(){
