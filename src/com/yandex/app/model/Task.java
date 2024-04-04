@@ -1,6 +1,6 @@
 package com.yandex.app.model;
 
-import com.yandex.app.service.TaskManager;
+import com.yandex.app.service.InMemoryTaskManager;
 
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = TaskManager.getCountTasks() + 1;
+        this.id = InMemoryTaskManager.getCountTasks() + 1;
     }
 
     public Task(String name, String description, Status status, int id) {

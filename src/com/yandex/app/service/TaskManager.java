@@ -1,176 +1,48 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.*;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.SubTask;
+import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class TaskManager {
+public interface TaskManager {
 
-    HashMap<Integer,Task> tasks = new HashMap<>();
-    HashMap<Integer,Epic> epics = new HashMap<>();
-    HashMap<Integer,SubTask> subtasks = new HashMap<>();
+    void createTask(Task task);
 
-    private static int countTasks;
+    void updateTask(int taskId, Task updatedtask);
 
-    public static int getCountTasks() {
-        return countTasks;
-    }
+    void createEpic(Epic epic);
 
-    public void createTask (Task task) {
-        tasks.put(++countTasks,task);
-    }
+    void createSubtask(SubTask subtask);
 
-    public void updateTask (int taskId, Task updatedtask) {
-        if (!tasks.containsKey(taskId)){
-            System.out.println("Изменяемая задача не найдена. Вопспользуйтесь методом добавления задачи");
-        } else {
-            tasks.put(taskId,updatedtask);
-        }
-    }
+    void updateSubtask(int subTaskId, SubTask subtask);
 
-    public void createEpic (Epic epic) {
-        epics.put(++countTasks, epic);
-    }
+    void deleteTask(int id);
 
-    public void createSubtask (SubTask subtask) {
-        subtasks.put(++countTasks,subtask);
-        epics.get(subtask.getEpicId()).addSubtasks(subtask.getId());
-        calculateEpicStatus(subtask.getEpicId());
-    }
+    void deleteSubTask(int id);
 
-    public void updateSubtask (int subTaskId, SubTask subtask) {
-        if (subtasks.containsKey(subTaskId)) {
-            subtasks.put(subTaskId, subtask);
-            epics.get(subtask.getEpicId()).getSubTaskIds().add(subTaskId);
-            calculateEpicStatus(subtasks.get(subTaskId).getEpicId());
-        } else {
-            System.out.println("Изменяемая подзадача не найдена");
-        }
-    }
-    public void deleteTask (int id) {
-        if (tasks.containsKey(id)){
-            tasks.remove(id);
-        } else {
-            System.out.println("Удаляемая задача не найдена.");
-        }
-    }
+    void deleteEpic(int id);
 
-    public void deleteSubTask (int id) {
-        if (subtasks.containsKey(id)) {
-            SubTask delSubTask = subtasks.get(id);
-            subtasks.remove(id);
-            int idx = epics.get(delSubTask.getEpicId()).getSubTaskIds().indexOf(id);
-            epics.get(delSubTask.getEpicId()).getSubTaskIds().remove(idx);
-            calculateEpicStatus(delSubTask.getEpicId());
-        } else {
-            System.out.println("Удаляемая подзадача не найдена.");
-        }
-    }
+    ArrayList<Task> getOnlyTasks();
 
-    public void deleteEpic (int id){
-        if (epics.containsKey(id)) {
-            for (int key: subtasks.keySet()) {
-                if (subtasks.get(key).getEpicId() == id) {
-                    subtasks.remove(key);
-                }
-            }
-            epics.remove(id);
-        }
-    }
+    ArrayList<SubTask> getOnlySubtasks();
 
-    public ArrayList<Task> getOnlyTasks() {
-        return new ArrayList<>(tasks.values());
-    }
+    ArrayList<Epic> getOnlyEpics();
 
-    public ArrayList<SubTask> getOnlySubtasks() {
-        return new ArrayList<>(subtasks.values());
-    }
+    void deleteAllTasks();
 
-    public ArrayList<Epic> getOnlyEpics() {
-        return new ArrayList<>(epics.values());
-    }
+    void deleteAllEpics();
 
-    public void deleteAllTasks(){
-        tasks.clear();
-    }
+    void deleteAllSubtasks();
 
-    public void deleteAllEpics() {
-        epics.clear();
-    }
+    Task getTaskById(int id);
 
-    public void deleteAllSubtasks() {
-        subtasks.clear();
-        for (Epic epic: epics.values()) {
-            calculateEpicStatus(epic.getId());
-            epic.getSubTaskIds().clear();
-        }
-    }
+    SubTask getSubTaskById(int id);
 
-    public void getTaskById (int id) {
-        if (tasks.containsKey(id)) {
-            System.out.println(tasks.get(id));
-        } else {
-            System.out.println("Искомая задача отсутствует.");
-        }
-    }
+    Epic getEpicById(int id);
 
-    public void getSubTaskById (int id) {
-        if (subtasks.containsKey(id)) {
-            System.out.println(subtasks.get(id));
-        } else {
-            System.out.println("Искомая подзадача отсутствует.");
-        }
-    }
+    void calculateEpicStatus(int epicId);
 
-    public void getEpicById (int id) {
-        if (epics.containsKey(id)) {
-            System.out.println(epics.get(id));
-        } else {
-            System.out.println("Искомый эпик отсутствует.");
-        }
-    }
-
-    public void calculateEpicStatus(int epicId) {
-        Epic epic = epics.get(epicId);
-        int newStatus = 0;
-        int inProgressStatus = 0;
-        int doneStatus = 0;
-        if (epic.getSubTaskIds().isEmpty()) {
-            epic.setStatus(Status.NEW);
-            return;
-        }
-        for (Integer subtaskId: epic.getSubTaskIds()) {
-            SubTask subtask = subtasks.get(subtaskId);
-            if (subtask.getStatus() == Status.NEW) {
-                newStatus++;
-            } else if (subtask.getStatus() == Status.IN_PROGRESS){
-                inProgressStatus++;
-                epics.get(epicId).setStatus(Status.IN_PROGRESS);
-                return;
-            } else if (subtask.getStatus() == Status.DONE) {
-                doneStatus++;
-            }
-        }
-        if (doneStatus == epic.getSubTaskIds().size()) {
-            epics.get(epicId).setStatus(Status.DONE);
-        } else {
-            epics.get(epicId).setStatus(Status.NEW);
-        }
-    }
-
-    public void showAllTasks() {
-        System.out.println("Список задач (id, task)");
-        for (int key:tasks.keySet()) {
-            System.out.println(key + " " + tasks.get(key).toString());
-        }
-        System.out.println("Список эпиков (id, epic)");
-        for (int epic:epics.keySet()) {
-            System.out.println(epic + " " + epics.get(epic).toString());
-        }
-        System.out.println("Список подзадач (id, subtask)");
-        for (int subtask:subtasks.keySet()) {
-            System.out.println(subtask + " " + subtasks.get(subtask).toString());
-        }
-    }
+    void showAllTasks();
 }

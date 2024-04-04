@@ -1,5 +1,11 @@
 package com.yandex.app;
 
+import com.yandex.app.model.Status;
+import com.yandex.app.model.SubTask;
+import com.yandex.app.model.Task;
+import com.yandex.app.service.InMemoryTaskManager;
+import com.yandex.app.service.TaskManager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,11 +23,8 @@ public class Main {
 //        hashTest.put(5,"ABC");
 //        System.out.println(hashTest);
 //        hashTest.put(5,"ABC");
-//         com.yandex.app.service.TaskManager taskManager = new com.yandex.app.service.TaskManager();
+//         com.yandex.app.service.TaskManager taskManager = com.yandex.app.service.Managers.getDefault();
 //
-//        //HashMap<Integer,com.yandex.app.model.Task> tasks = taskManager.tasks;
-//        //HashMap<Integer,com.yandex.app.model.Epic> epics = taskManager.epics;
-//        //HashMap<Integer,com.yandex.app.model.SubTask> subtasks = taskManager.subtasks;
 //
 //        taskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW));
 //        taskManager.createEpic(new com.yandex.app.model.Epic("Собраться на работу", "Долго и мучительно"));
@@ -39,9 +42,10 @@ public class Main {
 //        taskManager.createSubtask(new com.yandex.app.model.SubTask("Дойти до остановки", "БЫСТРО",com.yandex.app.model.Status.DONE,2));
 //        taskManager.showAllTasks();
 //        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//        System.out.println(Arrays.toString(taskManager.getOnlyTasks()));
-//        System.out.println(Arrays.toString(taskManager.getOnlyEpics()));
-//        System.out.println(Arrays.toString(taskManager.getOnlySubtasks()));
-
+//        System.out.println(taskManager.getOnlyTasks());
+//        System.out.println(taskManager.getOnlyEpics());
+//        System.out.println(taskManager.getOnlySubtasks());
+//        taskManager.getTaskById(1);
+//        taskManager.getEpicById(2);
     }
 }
