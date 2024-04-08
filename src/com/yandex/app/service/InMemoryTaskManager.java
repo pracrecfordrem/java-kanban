@@ -8,12 +8,13 @@ import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    static HashMap<Integer,Task> tasks = new HashMap<>();
-    static HashMap<Integer,Epic> epics = new HashMap<>();
-    static HashMap<Integer,SubTask> subtasks = new HashMap<>();
-    private static int countTasks;
+    HashMap<Integer,Task> tasks = new HashMap<>();
+    HashMap<Integer,Epic> epics = new HashMap<>();
+    HashMap<Integer,SubTask> subtasks = new HashMap<>();
+    private int countTasks;
 
-    public static int getCountTasks() {
+    @Override
+    public int getCountTasks() {
         return countTasks;
     }
 
@@ -47,7 +48,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(int subTaskId, SubTask subtask) {
         if (subtasks.containsKey(subTaskId)) {
             subtasks.put(subTaskId, subtask);
-            epics.get(subtask.getEpicId()).getSubTaskIds().add(subTaskId);
             calculateEpicStatus(subtasks.get(subTaskId).getEpicId());
         } else {
             System.out.println("Изменяемая подзадача не найдена");
@@ -110,6 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllEpics() {
         epics.clear();
+        subtasks.clear();
     }
 
     @Override

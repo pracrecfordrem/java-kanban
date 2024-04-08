@@ -16,19 +16,19 @@ public class TaskManagerTest {
     }
     @Test
     public void tasksShouldBeEqualIfIdEqual() {
-        taskManager.createTask(new Task("Встать с постели","Просто встать с постели", Status.NEW));
-        Assertions.assertEquals(taskManager.getOnlyTasks().getFirst().id == taskManager.getOnlyTasks().getFirst().id, taskManager.getOnlyTasks().getFirst().equals(taskManager.getOnlyTasks().getFirst()));
+        taskManager.createTask(new Task("Встать с постели","Просто встать с постели", Status.NEW,taskManager.getCountTasks()));
+        Assertions.assertEquals(taskManager.getOnlyTasks().getFirst().getId() == taskManager.getOnlyTasks().getFirst().getId(), taskManager.getOnlyTasks().getFirst().equals(taskManager.getOnlyTasks().getFirst()));
     }
     @Test
     public void epicsShouldBeEqualIfIdEqual() {
-        taskManager.createEpic(new Epic("Собраться на работу","Долго и мучительно"));
-        Assertions.assertEquals(taskManager.getOnlyEpics().getFirst().id == taskManager.getOnlyEpics().getFirst().id, taskManager.getOnlyEpics().getFirst().equals(taskManager.getOnlyEpics().getFirst()));
+        taskManager.createEpic(new Epic("Собраться на работу","Долго и мучительно", taskManager.getCountTasks()));
+        Assertions.assertEquals(taskManager.getOnlyEpics().getFirst().getId() == taskManager.getOnlyEpics().getFirst().getId(), taskManager.getOnlyEpics().getFirst().equals(taskManager.getOnlyEpics().getFirst()));
     }
     @Test
     public void subtasksShouldBeEqualIfIdEqual() {
-        taskManager.createEpic(new Epic("Собраться на работу","Долго и мучительно"));
-        taskManager.createSubtask(new SubTask("Встать с постели","Просто встать с постели",Status.NEW,taskManager.getOnlyEpics().getFirst().getId()));
-        Assertions.assertEquals(taskManager.getOnlySubtasks().getFirst().id == taskManager.getOnlySubtasks().getFirst().id, taskManager.getOnlySubtasks().getFirst().equals(taskManager.getOnlySubtasks().getFirst()));
+        taskManager.createEpic(new Epic("Собраться на работу","Долго и мучительно", taskManager.getCountTasks()));
+        taskManager.createSubtask(new SubTask("Встать с постели","Просто встать с постели",Status.NEW,taskManager.getOnlyEpics().getFirst().getId(), taskManager.getCountTasks()));
+        Assertions.assertEquals(taskManager.getOnlySubtasks().getFirst().getId() == taskManager.getOnlySubtasks().getFirst().getId(), taskManager.getOnlySubtasks().getFirst().equals(taskManager.getOnlySubtasks().getFirst()));
     }
     @Test
     public void isUtilityClassWorking() {
@@ -39,25 +39,28 @@ public class TaskManagerTest {
     public void canInMemoryTaskManagerAddTaskAndFindItByID() {
         String desc = "Просто встать с постели";
         String name = "Встать с постели";
-        taskManager.createTask(new Task(name,desc,Status.NEW));
-        int newId = InMemoryTaskManager.getCountTasks();
-        Assertions.assertTrue(taskManager.getTaskById(newId).description.equals(desc) && taskManager.getTaskById(newId).name.equals(name));
+        taskManager.createTask(new Task(name,desc,Status.NEW, taskManager.getCountTasks()));
+        int newId = taskManager.getCountTasks();
+        Assertions.assertTrue(taskManager.getTaskById(newId).getDescription().equals(desc) && taskManager.getTaskById(newId).getName().equals(name));
     }
     @Test
     public void canInMemoryTaskManagerAddEpicAndFindItByID() {
         String desc = "Долго и мучительно";
         String name = "Собраться на работу";
-        taskManager.createEpic(new Epic(name,desc));
-        int newId = InMemoryTaskManager.getCountTasks();
-        Assertions.assertTrue(taskManager.getEpicById(newId).description.equals(desc) && taskManager.getEpicById(newId).name.equals(name));
+        taskManager.createEpic(new Epic(name,desc, taskManager.getCountTasks()));
+        int newId = taskManager.getCountTasks();
+        Assertions.assertTrue(taskManager.getEpicById(newId).getDescription().equals(desc) && taskManager.getEpicById(newId).getName().equals(name));
     }
     @Test
     public void canInMemoryTaskManagerAddSubtaskAndFindItByID() {
+        String desc = "Долго и мучительно";
+        String name = "Собраться на работу";
+        taskManager.createEpic(new Epic(name,desc, taskManager.getCountTasks()));
         int epicId = taskManager.getOnlyEpics().getLast().getId();
-        String name = "Имя сабтаска";
-        String desc = "Описание сабтаска";
-        taskManager.createSubtask(new SubTask(name, desc, Status.NEW, epicId));
-        int newId = InMemoryTaskManager.getCountTasks();
-        Assertions.assertTrue(taskManager.getSubTaskById(newId).description.equals(desc) && taskManager.getSubTaskById(newId).name.equals(name));
+        String subTaskName = "Имя сабтаска";
+        String subTaskDesc = "Описание сабтаска";
+        taskManager.createSubtask(new SubTask(subTaskName, subTaskDesc, Status.NEW, epicId, taskManager.getCountTasks()));
+        int newId = taskManager.getCountTasks();
+        Assertions.assertTrue(taskManager.getSubTaskById(newId).getDescription().equals(subTaskDesc) && taskManager.getSubTaskById(newId).getName().equals(subTaskName));
     }
 }

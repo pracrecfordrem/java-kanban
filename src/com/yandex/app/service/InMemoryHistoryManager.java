@@ -9,12 +9,14 @@ public class InMemoryHistoryManager implements HistoryManager{
     static List<Task> viewedTasks = new ArrayList<>();
     @Override
     public void add(Task task) {
-        viewedTasks.add(task);
+        if (task != null) {
+            viewedTasks.add(task);
+        }
     }
 
     @Override
     public List<Task> getHistory() {
-        return viewedTasks;
+        return List.copyOf(viewedTasks);
     }
 
 }

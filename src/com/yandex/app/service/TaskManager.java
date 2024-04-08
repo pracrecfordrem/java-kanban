@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public interface TaskManager {
 
+    int getCountTasks();
+
     void createTask(Task task);
 
     void updateTask(int taskId, Task updatedtask);

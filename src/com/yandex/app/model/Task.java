@@ -11,20 +11,12 @@ public class Task {
     protected int id;
     protected Status status;
 
-    public Task(String name, String description, Status status) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.id = InMemoryTaskManager.getCountTasks() + 1;
-    }
-
     public Task(String name, String description, Status status, int id) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = id;
+        this.id = id + 1;
     }
-
 
     public Status getStatus() {
         return status;
@@ -32,6 +24,14 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
