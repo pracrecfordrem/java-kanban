@@ -52,6 +52,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Изменяемая подзадача не найдена");
         }
     }
+    
     @Override
     public void deleteTask(int id) {
         if (tasks.containsKey(id)) {
