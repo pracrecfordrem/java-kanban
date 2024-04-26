@@ -2,7 +2,7 @@ package com.yandex.app.service;
 
 public class Managers {
     private static TaskManager taskManager;
-    private static HistoryManager getDefaultHistory;
+    private static HistoryManager inMemoryHistoryManager;
 
     public static TaskManager getDefault() {
         if (taskManager == null) {
@@ -12,10 +12,10 @@ public class Managers {
         }
     }
     public static HistoryManager getDefaultHistory() {
-        if (getDefaultHistory == null) {
+        if (inMemoryHistoryManager == null) {
             return new InMemoryHistoryManager();
         } else {
-            return getDefaultHistory;
+            return inMemoryHistoryManager;
         }
     }
 }
