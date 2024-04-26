@@ -126,12 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
             Task viewedTask = tasks.get(id);
-            if (Managers.getDefaultHistory().getHistory().size() < 10) {
-                Managers.getDefaultHistory().add(viewedTask);
-            } else {
-                Managers.getDefaultHistory().getHistory().removeFirst();
-                Managers.getDefaultHistory().add(viewedTask);
-            }
+            Managers.getDefaultHistory().add(viewedTask);
             return viewedTask;
         } else {
             System.out.println("Искомая задача отсутствует.");

@@ -8,9 +8,9 @@ class Node {
     public Node next;
     public Node prev;
 
-    public Node(Task data) {
+    public Node(Task data, Node prev, Node next) {
         this.data = data;
-        this.next = null;
-        this.prev = null;
+        this.next = next;
+        this.prev = prev;
     }
 }

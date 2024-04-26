@@ -9,53 +9,52 @@ import java.util.List;
 public class InMemoryHistoryManager implements HistoryManager{
 
 
-    HashMap<Integer,Node> viewedTasks = new HashMap<>();
-    CustomLinkedList customLinkedList = new CustomLinkedList();
+    public static HashMap<Integer,Node> viewedTasks = new HashMap<>();
+    public static CustomLinkedList customLinkedList = new CustomLinkedList();
 
     @Override
     public void add(Task task) {
         if (task != null) {
             if (viewedTasks.containsKey(task.getId())) {
-                customLinkedList.removeNode(viewedTasks.get(task.getId()));
-                customLinkedList.linkLast(task);
-
+                CustomLinkedList.removeNode(viewedTasks.get(task.getId()));
+                CustomLinkedList.linkLast(task);
+                viewedTasks.put(task.getId(),CustomLinkedList.tail);
             } else {
-                viewedTasks.put(task.getId(), new Node(task));
-                customLinkedList.linkLast(task);
+                CustomLinkedList.linkLast(task);
+                viewedTasks.put(task.getId(), CustomLinkedList.tail);
             }
         }
     }
 
     @Override
     public void remove(int id) {
-        customLinkedList.removeNode(viewedTasks.get(id));
+        CustomLinkedList.removeNode(viewedTasks.get(id));
     }
 
     @Override
     public List<Task> getHistory() {
-        ArrayList<Task> tasks = customLinkedList.getTasks();
+        ArrayList<Task> tasks = CustomLinkedList.getTasks();
         return List.copyOf(tasks);
     }
 
-    public class CustomLinkedList {
-        private Node head;
-        private Node tail;
+    public static class CustomLinkedList {
+
+        private static Node head;
+        private static Node tail;
         private static int size = 0;
 
-        public void linkLast(Task task){
-            if (head == null) {
-                head = new Node(task);
-                tail = new Node(null);
-                tail.prev = head;
-            } else {
-                tail.data = task;
-                tail.next = new Node(null);
+        public static void linkLast(Task task){
+            if (size == 0) {
+                head = new Node(task, null, null);
+                tail = head;
+            } else{
+                tail.next = new Node(task,tail,null);
                 tail = tail.next;
             }
             size++;
         }
 
-        public ArrayList<Task> getTasks() {
+        public static ArrayList<Task> getTasks() {
             ArrayList<Task> tasks = new ArrayList<>();
             ArrayList<Node> nodeTasks = new ArrayList<>(viewedTasks.values());
             for (int i = 0; i < nodeTasks.size(); i++) {
@@ -64,20 +63,40 @@ public class InMemoryHistoryManager implements HistoryManager{
             return tasks;
         }
 
-        public void removeNode(Node node) {
+        public static void removeNode(Node node) {
             Node prev = node.prev;
             Node next = node.next;
 
-            if (prev == null) {//head is being deleted
-                head = next;
-                head.prev = null;
-            } else if (next == null) {//tail is being deleted
-                prev.next = null;
-                tail = prev;
+            if (size == 0) {//move on
+                return;
+            } else if (size == 1) {//tail and head are being deleted
+                head = null;
+                tail = null;
             } else {
-                prev.next = next;
-                next.prev = prev;
+                if (next == null) {
+                    tail = tail.prev;
+                    tail.next = null;
+                } else if (prev == null) {
+                    head = head.next;
+                    head.prev = null;
+                } else {
+                    prev.next = next;
+                    next.prev = prev;
+                }
             }
+            size--;
+        }
+
+        public static Node getHead() {
+            return head;
+        }
+
+        public static Node getTail() {
+            return tail;
+        }
+
+        public static int getSize() {
+            return size;
         }
     }
 
