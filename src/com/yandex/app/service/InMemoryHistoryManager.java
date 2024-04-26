@@ -6,11 +6,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
 
 
-    public static HashMap<Integer,Node> viewedTasks = new HashMap<>();
-    public static CustomLinkedList customLinkedList = new CustomLinkedList();
+    private static HashMap<Integer, Node> viewedTasks = new HashMap<>();
+
+    private static CustomLinkedList customLinkedList = new CustomLinkedList();
+
+    public static HashMap<Integer, Node> getViewedTasks() {
+        return viewedTasks;
+    }
+
+    public static CustomLinkedList getCustomLinkedList() {
+        return customLinkedList;
+    }
 
     @Override
     public void add(Task task) {
@@ -18,7 +27,7 @@ public class InMemoryHistoryManager implements HistoryManager{
             if (viewedTasks.containsKey(task.getId())) {
                 CustomLinkedList.removeNode(viewedTasks.get(task.getId()));
                 CustomLinkedList.linkLast(task);
-                viewedTasks.put(task.getId(),CustomLinkedList.tail);
+                viewedTasks.put(task.getId(), CustomLinkedList.tail);
             } else {
                 CustomLinkedList.linkLast(task);
                 viewedTasks.put(task.getId(), CustomLinkedList.tail);
@@ -43,12 +52,12 @@ public class InMemoryHistoryManager implements HistoryManager{
         private static Node tail;
         private static int size = 0;
 
-        public static void linkLast(Task task){
+        public static void linkLast(Task task) {
             if (size == 0) {
                 head = new Node(task, null, null);
                 tail = head;
-            } else{
-                tail.next = new Node(task,tail,null);
+            } else {
+                tail.next = new Node(task, tail, null);
                 tail = tail.next;
             }
             size++;
@@ -67,9 +76,9 @@ public class InMemoryHistoryManager implements HistoryManager{
             Node prev = node.prev;
             Node next = node.next;
 
-            if (size == 0) {//move on
+            if (size == 0) { //move on
                 return;
-            } else if (size == 1) {//tail and head are being deleted
+            } else if (size == 1) { //tail and head are being deleted
                 head = null;
                 tail = null;
             } else {
