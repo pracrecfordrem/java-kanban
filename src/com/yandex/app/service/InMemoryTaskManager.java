@@ -3,7 +3,6 @@ package com.yandex.app.service;
 import com.yandex.app.model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -25,7 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(int taskId, Task updatedtask) {
-        if (!tasks.containsKey(taskId)){
+        if (!tasks.containsKey(taskId)) {
             System.out.println("Изменяемая задача не найдена. Вопспользуйтесь методом добавления задачи");
         } else {
             tasks.put(taskId,updatedtask);
@@ -55,7 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
     @Override
     public void deleteTask(int id) {
-        if (tasks.containsKey(id)){
+        if (tasks.containsKey(id)) {
             tasks.remove(id);
         } else {
             System.out.println("Удаляемая задача не найдена.");
@@ -76,7 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteEpic(int id){
+    public void deleteEpic(int id) {
         if (epics.containsKey(id)) {
             for (int key: subtasks.keySet()) {
                 if (subtasks.get(key).getEpicId() == id) {
@@ -181,7 +180,7 @@ public class InMemoryTaskManager implements TaskManager {
             SubTask subtask = subtasks.get(subtaskId);
             if (subtask.getStatus() == Status.NEW) {
                 newStatus++;
-            } else if (subtask.getStatus() == Status.IN_PROGRESS){
+            } else if (subtask.getStatus() == Status.IN_PROGRESS) {
                 inProgressStatus++;
                 epics.get(epicId).setStatus(Status.IN_PROGRESS);
                 return;
