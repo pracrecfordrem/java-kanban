@@ -11,6 +11,7 @@ public class Managers {
             return taskManager;
         }
     }
+
     public static InMemoryHistoryManager getDefaultHistory() {
         if (inMemoryHistoryManager == null) {
             return new InMemoryHistoryManager();
