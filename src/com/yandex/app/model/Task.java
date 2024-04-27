@@ -1,7 +1,5 @@
 package com.yandex.app.model;
 
-import com.yandex.app.service.InMemoryTaskManager;
-
 import java.util.Objects;
 
 public class Task {
