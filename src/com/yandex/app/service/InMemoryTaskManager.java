@@ -1,15 +1,17 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.*;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.SubTask;
+import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    HashMap<Integer,Task> tasks = new HashMap<>();
-    HashMap<Integer,Epic> epics = new HashMap<>();
-    HashMap<Integer,SubTask> subtasks = new HashMap<>();
+    HashMap<Integer, Task> tasks = new HashMap<>();
+    HashMap<Integer, Epic> epics = new HashMap<>();
+    HashMap<Integer, SubTask> subtasks = new HashMap<>();
     private int countTasks;
 
     @Override
