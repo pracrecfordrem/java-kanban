@@ -2,7 +2,7 @@ package com.yandex.app.model;
 
 import java.util.ArrayList;
 
-public class Epic extends Task{
+public class Epic extends Task {
     private final ArrayList<Integer> subtaskIds;
 
     public Epic(String name, String description, int id) {
@@ -25,14 +25,14 @@ public class Epic extends Task{
     @Override
     public String toString() {
         if (subtaskIds.isEmpty()) {
-            return "com.yandex.app.model.Epic{" +
+            return "com.yandex.app.model.Epic {" +
                     "name='" + name + '\'' +
                     ", description='" + description + '\'' +
                     ", id=" + id +
                     ", status=" + status +
                     "}";
         }
-        return "com.yandex.app.model.Epic{" +
+        return "com.yandex.app.model.Epic {" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
