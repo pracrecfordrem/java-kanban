@@ -37,7 +37,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        CustomLinkedList.removeNode(viewedTasks.get(id));
+        if (viewedTasks.get(id) != null) {
+            CustomLinkedList.removeNode(viewedTasks.get(id));
+        }
     }
 
     @Override
@@ -57,8 +59,8 @@ public class InMemoryHistoryManager implements HistoryManager {
                 head = new Node(task, null, null);
                 tail = head;
             } else {
-                tail.next = new Node(task, tail, null);
-                tail = tail.next;
+                tail.setNext(new Node(task, tail, null));
+                tail = tail.getNext();
             }
             size++;
         }
@@ -67,14 +69,14 @@ public class InMemoryHistoryManager implements HistoryManager {
             ArrayList<Task> tasks = new ArrayList<>();
             ArrayList<Node> nodeTasks = new ArrayList<>(viewedTasks.values());
             for (int i = 0; i < nodeTasks.size(); i++) {
-                tasks.add(nodeTasks.get(i).data);
+                tasks.add(nodeTasks.get(i).getData());
             }
             return tasks;
         }
 
         public static void removeNode(Node node) {
-            Node prev = node.prev;
-            Node next = node.next;
+            Node prev = node.getPrev();
+            Node next = node.getNext();
 
             if (size == 0) { //move on
                 return;
@@ -83,16 +85,18 @@ public class InMemoryHistoryManager implements HistoryManager {
                 tail = null;
             } else {
                 if (next == null) {
-                    tail = tail.prev;
-                    tail.next = null;
+                    tail = tail.getPrev();
+                    tail.setNext(null);
                 } else if (prev == null) {
-                    head = head.next;
-                    head.prev = null;
+                    head = head.getNext();
+                    head.setPrev(null);
                 } else {
-                    prev.next = next;
-                    next.prev = prev;
+                    prev.setNext(next);
+                    next.setPrev(prev);
                 }
             }
+            node.setPrev(null);
+            node.setNext(null);
             size--;
         }
 
