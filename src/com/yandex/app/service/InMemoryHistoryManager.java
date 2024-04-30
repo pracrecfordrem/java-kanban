@@ -8,47 +8,45 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-
-    private static HashMap<Integer, Node> viewedTasks = new HashMap<>();
-
-    private static CustomLinkedList customLinkedList = new CustomLinkedList();
-
-    public static HashMap<Integer, Node> getViewedTasks() {
-        return viewedTasks;
-    }
-
-    public static CustomLinkedList getCustomLinkedList() {
+    private CustomLinkedList customLinkedList = new CustomLinkedList();
+    public CustomLinkedList getCustomLinkedList() {
         return customLinkedList;
     }
 
     @Override
     public void add(Task task) {
         if (task != null) {
-            if (viewedTasks.containsKey(task.getId())) {
-                CustomLinkedList.removeNode(viewedTasks.get(task.getId()));
-                CustomLinkedList.linkLast(task);
-                viewedTasks.put(task.getId(), CustomLinkedList.tail);
+            if (customLinkedList.viewedTasks.containsKey(task.getId())) {
+                customLinkedList.removeNode(customLinkedList.viewedTasks.get(task.getId()));
+                customLinkedList.linkLast(task);
+                customLinkedList.viewedTasks.put(task.getId(), customLinkedList.tail);
             } else {
-                CustomLinkedList.linkLast(task);
-                viewedTasks.put(task.getId(), CustomLinkedList.tail);
+                customLinkedList.linkLast(task);
+                customLinkedList.viewedTasks.put(task.getId(), customLinkedList.tail);
             }
         }
     }
 
     @Override
-    public void remove(int id) {
-        if (viewedTasks.get(id) != null) {
-            CustomLinkedList.removeNode(viewedTasks.get(id));
-        }
-    }
-
-    @Override
     public List<Task> getHistory() {
-        ArrayList<Task> tasks = CustomLinkedList.getTasks();
+        ArrayList<Task> tasks = customLinkedList.getTasks();
         return List.copyOf(tasks);
     }
 
-    public static class CustomLinkedList {
+    @Override
+    public void remove(int id) {
+        if (customLinkedList.viewedTasks.get(id) != null) {
+            customLinkedList.removeNode(customLinkedList.viewedTasks.get(id));
+        }
+    }
+    public class CustomLinkedList {
+
+
+        public HashMap<Integer, Node> getViewedTasks() {
+            return viewedTasks;
+        }
+
+        private static HashMap<Integer, Node> viewedTasks = new HashMap<>();
 
         private static Node head;
         private static Node tail;
@@ -65,7 +63,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             size++;
         }
 
-        public static ArrayList<Task> getTasks() {
+        public ArrayList<Task> getTasks() {
             ArrayList<Task> tasks = new ArrayList<>();
             ArrayList<Node> nodeTasks = new ArrayList<>(viewedTasks.values());
             for (int i = 0; i < nodeTasks.size(); i++) {
