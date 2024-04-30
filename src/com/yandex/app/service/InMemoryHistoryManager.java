@@ -1,6 +1,6 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.*;
+import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.List;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private CustomLinkedList customLinkedList = new CustomLinkedList();
+
     public CustomLinkedList getCustomLinkedList() {
         return customLinkedList;
     }
@@ -39,6 +40,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             customLinkedList.removeNode(customLinkedList.viewedTasks.get(id));
         }
     }
+
     public class CustomLinkedList {
 
 
