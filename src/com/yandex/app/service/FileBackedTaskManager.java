@@ -3,12 +3,9 @@ package com.yandex.app.service;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.SubTask;
 import com.yandex.app.model.Task;
-import com.yandex.app.model.TaskType;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     String absoluteFilePath;
