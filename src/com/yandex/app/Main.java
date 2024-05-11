@@ -4,6 +4,7 @@ package com.yandex.app;
 public class Main {
 
     public static void main(String[] args) {
+
 //        com.yandex.app.service.TaskManager taskManager = com.yandex.app.service.Managers.getDefault();
 //        com.yandex.app.service.TaskManager taskManager2 = com.yandex.app.service.Managers.getDefault();
 //        com.yandex.app.service.InMemoryHistoryManager historyManager = com.yandex.app.service.Managers.getDefaultHistory();
