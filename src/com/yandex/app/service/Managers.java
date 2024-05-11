@@ -3,7 +3,6 @@ package com.yandex.app.service;
 import com.yandex.app.model.*;
 
 import java.io.*;
-import java.util.Arrays;
 
 import static com.yandex.app.model.Status.*;
 
@@ -47,7 +46,7 @@ public class Managers {
             currStatus = DONE;
         }
         if (valuesArr[1].equals(String.valueOf(TaskType.TASK))) {
-            return new Task(valuesArr[2],valuesArr[4],currStatus,Integer.parseInt(valuesArr[0])-1);
+            return new Task(valuesArr[2],valuesArr[4],currStatus,Integer.parseInt(valuesArr[0]) - 1);
         } else if (valuesArr[1].equals(String.valueOf(TaskType.SUBTASK))) {
             return new SubTask(valuesArr[2],valuesArr[4],currStatus,Integer.parseInt(valuesArr[5]),Integer.parseInt(valuesArr[0]) - 1);
         } else {
@@ -56,6 +55,7 @@ public class Managers {
     }
 
     public static FileBackedTaskManager loadFromFile(File file) {
+        int addedTasks = 0;
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file.getAbsolutePath());
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {
@@ -64,17 +64,21 @@ public class Managers {
                 if (type.equals(String.valueOf(TaskType.TASK))) {
                     Task task = fromString(line);
                     fileBackedTaskManager.tasks.put(task.getId(),task);
+                    addedTasks++;
                 } else if (type.equals(String.valueOf(TaskType.EPIC))) {
                     Epic epic = (Epic) fromString(line);
                     fileBackedTaskManager.epics.put(epic.getId(), epic);
+                    addedTasks++;
                 } else if (type.equals(String.valueOf(TaskType.SUBTASK))) {
                     SubTask subTask = (SubTask) fromString(line);
                     fileBackedTaskManager.subtasks.put(subTask.getId(), subTask);
+                    addedTasks++;
                 }
             }
         } catch (IOException o) {
             throw new ManagerSaveException("Ошибка при работе с файлом", o);
         }
+        fileBackedTaskManager.setCountTasks(addedTasks);
         return fileBackedTaskManager;
     }
 }

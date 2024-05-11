@@ -7,15 +7,16 @@ public class Main {
 
     public static void main(String[] args) {
 //        String filePath = "C:\\Users\\rbarinov\\Desktop\\temp\\Tasks.txt";
-//
-////        Пользовательский сценарий №1
-////        com.yandex.app.service.TaskManager fileBackedTaskManagerFromFile = com.yandex.app.service.Managers.loadFromFile(new File(filePath));
-////        System.out.println(fileBackedTaskManagerFromFile.getOnlyEpics());
-////        System.out.println(fileBackedTaskManagerFromFile.getOnlyTasks());
-////        System.out.println(fileBackedTaskManagerFromFile.getOnlySubtasks());
+
+//        Пользовательский сценарий №1
+//        com.yandex.app.service.TaskManager fileBackedTaskManagerFromFile = com.yandex.app.service.Managers.loadFromFile(new File(filePath));
+//        System.out.println(fileBackedTaskManagerFromFile.getOnlyTasks());
+//        System.out.println(fileBackedTaskManagerFromFile.getOnlyEpics());
+//        System.out.println(fileBackedTaskManagerFromFile.getOnlySubtasks());
+//        System.out.println(fileBackedTaskManagerFromFile.getCountTasks());
 //
 //        //Пользовательский сценарий №2
-//
+
 //        com.yandex.app.service.TaskManager fileBackedTaskManager = com.yandex.app.service.Managers.getDefaultFiledBacked(filePath);
 //        com.yandex.app.service.TaskManager taskManager2 = com.yandex.app.service.Managers.getDefault();
 //        com.yandex.app.service.InMemoryHistoryManager historyManager = com.yandex.app.service.Managers.getDefaultHistory();

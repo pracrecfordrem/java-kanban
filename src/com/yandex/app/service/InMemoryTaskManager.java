@@ -13,6 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     HashMap<Integer, Task> tasks = new HashMap<>();
     HashMap<Integer, Epic> epics = new HashMap<>();
     HashMap<Integer, SubTask> subtasks = new HashMap<>();
+
     private int countTasks;
 
     @Override
@@ -213,5 +214,8 @@ public class InMemoryTaskManager implements TaskManager {
         for (int subtask:subtasks.keySet()) {
             System.out.println(subtask + " " + subtasks.get(subtask).toString());
         }
+    }
+    public void setCountTasks(int countTasks) {
+        this.countTasks = countTasks;
     }
 }
