@@ -215,6 +215,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println(subtask + " " + subtasks.get(subtask).toString());
         }
     }
+
     public void setCountTasks(int countTasks) {
         this.countTasks = countTasks;
     }
