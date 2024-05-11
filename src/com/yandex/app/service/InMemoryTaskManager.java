@@ -1,16 +1,18 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.*;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.Status;
+import com.yandex.app.model.SubTask;
+import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    HashMap<Integer,Task> tasks = new HashMap<>();
-    HashMap<Integer,Epic> epics = new HashMap<>();
-    HashMap<Integer,SubTask> subtasks = new HashMap<>();
+    HashMap<Integer, Task> tasks = new HashMap<>();
+    HashMap<Integer, Epic> epics = new HashMap<>();
+    HashMap<Integer, SubTask> subtasks = new HashMap<>();
     private int countTasks;
 
     @Override
@@ -25,7 +27,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(int taskId, Task updatedtask) {
-        if (!tasks.containsKey(taskId)){
+        if (!tasks.containsKey(taskId)) {
             System.out.println("Изменяемая задача не найдена. Вопспользуйтесь методом добавления задачи");
         } else {
             tasks.put(taskId,updatedtask);
@@ -53,9 +55,10 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Изменяемая подзадача не найдена");
         }
     }
+
     @Override
     public void deleteTask(int id) {
-        if (tasks.containsKey(id)){
+        if (tasks.containsKey(id)) {
             tasks.remove(id);
         } else {
             System.out.println("Удаляемая задача не найдена.");
@@ -76,7 +79,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteEpic(int id){
+    public void deleteEpic(int id) {
         if (epics.containsKey(id)) {
             for (int key: subtasks.keySet()) {
                 if (subtasks.get(key).getEpicId() == id) {
@@ -103,7 +106,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteAllTasks(){
+    public void deleteAllTasks() {
         tasks.clear();
     }
 
@@ -126,12 +129,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
             Task viewedTask = tasks.get(id);
-            if (Managers.getDefaultHistory().getHistory().size() < 10) {
-                Managers.getDefaultHistory().add(viewedTask);
-            } else {
-                Managers.getDefaultHistory().getHistory().removeFirst();
-                Managers.getDefaultHistory().add(viewedTask);
-            }
+            Managers.getDefaultHistory().add(viewedTask);
             return viewedTask;
         } else {
             System.out.println("Искомая задача отсутствует.");
@@ -186,7 +184,7 @@ public class InMemoryTaskManager implements TaskManager {
             SubTask subtask = subtasks.get(subtaskId);
             if (subtask.getStatus() == Status.NEW) {
                 newStatus++;
-            } else if (subtask.getStatus() == Status.IN_PROGRESS){
+            } else if (subtask.getStatus() == Status.IN_PROGRESS) {
                 inProgressStatus++;
                 epics.get(epicId).setStatus(Status.IN_PROGRESS);
                 return;

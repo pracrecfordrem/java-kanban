@@ -1,33 +1,13 @@
 package com.yandex.app;
 
-import com.yandex.app.model.Status;
-import com.yandex.app.model.SubTask;
-import com.yandex.app.model.Task;
-import com.yandex.app.service.HistoryManager;
-import com.yandex.app.service.InMemoryHistoryManager;
-import com.yandex.app.service.InMemoryTaskManager;
-import com.yandex.app.service.TaskManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class Main {
 
     public static void main(String[] args) {
-//          ArrayList<Integer> test = new ArrayList<>();
-//          HashMap<Integer,String> hashTest = new HashMap<>();
-//          test.add(6);
-//          test.add(6);
-//          int index = test.indexOf(6);
-//          System.out.println(index);
-//        System.out.println(hashTest);
-//        hashTest.put(5,"ABC");
-//        System.out.println(hashTest);
-//        hashTest.put(5,"ABC");
-//         com.yandex.app.service.TaskManager taskManager = com.yandex.app.service.Managers.getDefault();
-//         com.yandex.app.service.TaskManager taskManager2 = com.yandex.app.service.Managers.getDefault();
-//         com.yandex.app.service.HistoryManager historyManager = com.yandex.app.service.Managers.getDefaultHistory();
+
+//        com.yandex.app.service.TaskManager taskManager = com.yandex.app.service.Managers.getDefault();
+//        com.yandex.app.service.TaskManager taskManager2 = com.yandex.app.service.Managers.getDefault();
+//        com.yandex.app.service.InMemoryHistoryManager historyManager = com.yandex.app.service.Managers.getDefaultHistory();
 //
 //
 //        taskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW,taskManager.getCountTasks()));
@@ -47,13 +27,20 @@ public class Main {
 //        taskManager.showAllTasks();
 //        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 //        System.out.println(taskManager.getOnlyTasks());
-//        System.out.println(taskManager2.getOnlyTasks());
 //        System.out.println(taskManager.getOnlyEpics());
 //        System.out.println(taskManager.getOnlySubtasks());
-//        taskManager.getTaskById(1);
-//        taskManager.getEpicById(2);
-//        System.out.println(taskManager.getTaskById(123));
-//        System.out.println(historyManager.getHistory());
+//        System.out.println("head: " + historyManager.getCustomLinkedList().getHead() + " tail: " + historyManager.getCustomLinkedList().getTail() + ", size: " + historyManager.getCustomLinkedList().getSize() + ", viewedTasks: " + historyManager.getCustomLinkedList().getViewedTasks());
+//        System.out.println(taskManager.getTaskById(1));
+//        System.out.println("head: " + historyManager.getCustomLinkedList().getHead() + " tail: " + historyManager.getCustomLinkedList().getTail() + ", size: " + historyManager.getCustomLinkedList().getSize() + ", viewedTasks: " + historyManager.getCustomLinkedList().getViewedTasks());
+//        System.out.println(taskManager.getTaskById(1));
+//        System.out.println("head: " + historyManager.getCustomLinkedList().getHead() + " tail: " + historyManager.getCustomLinkedList().getTail() + ", size: " + historyManager.getCustomLinkedList().getSize() + ", viewedTasks: " + historyManager.getCustomLinkedList().getViewedTasks());
+//        System.out.println(taskManager.getEpicById(2));
+//        System.out.println("head: " + historyManager.getCustomLinkedList().getHead() + " tail: " + historyManager.getCustomLinkedList().getTail() + ", size: " + historyManager.getCustomLinkedList().getSize() + ", viewedTasks: " + historyManager.getCustomLinkedList().getViewedTasks());
+//        System.out.println(taskManager.getEpicById(2));
+//        System.out.println("head: " + historyManager.getCustomLinkedList().getHead() + " tail: " + historyManager.getCustomLinkedList().getTail() + ", size: " + historyManager.getCustomLinkedList().getSize() + ", viewedTasks: " + historyManager.getCustomLinkedList().getViewedTasks());
+//
+//
+//        System.out.println("История просмотров: " + historyManager.getCustomLinkedList().getViewedTasks());
 
     }
 }
