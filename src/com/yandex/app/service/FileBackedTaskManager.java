@@ -3,10 +3,36 @@ package com.yandex.app.service;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.SubTask;
 import com.yandex.app.model.Task;
+import com.yandex.app.model.TaskType;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 
 public class FileBackedTaskManager extends InMemoryTaskManager{
-    void save(){
+    String absoluteFilePath;
 
+    public FileBackedTaskManager(String filePath) {
+        this.absoluteFilePath = filePath;
+    }
+
+    void save() throws ManagerSaveException {
+        try (FileWriter fileWriter = new FileWriter(absoluteFilePath)) {
+            //int cnt = 0;
+            fileWriter.write("id,type,name,status,description,epic\n");
+            for (int taskid: tasks.keySet()) {
+                fileWriter.write(tasks.get(taskid).toString()+'\n');
+            }
+            for (int epicId: epics.keySet()) {
+                fileWriter.write(epics.get(epicId).toString()+'\n');
+            }
+            for (int subTaskId: subtasks.keySet()) {
+                fileWriter.write(subtasks.get(subTaskId).toString()+'\n');
+            }
+        } catch (IOException o) {
+            throw new ManagerSaveException("Ошибка при работе с файлом", o);
+        }
     }
     @Override
     public void createTask(Task task) {

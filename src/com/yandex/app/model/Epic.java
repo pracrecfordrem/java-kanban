@@ -24,20 +24,6 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        if (subtaskIds.isEmpty()) {
-            return "com.yandex.app.model.Epic {" +
-                    "name='" + name + '\'' +
-                    ", description='" + description + '\'' +
-                    ", id=" + id +
-                    ", status=" + status +
-                    "}";
-        }
-        return "com.yandex.app.model.Epic {" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                ", subtasks=" + subtaskIds +
-                '}';
+        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + ",";
     }
 }

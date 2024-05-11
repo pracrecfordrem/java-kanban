@@ -14,12 +14,6 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "com.yandex.app.model.SubTask{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                ", epicId=" + epicId +
-                '}';
+        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicId;
     }
 }
