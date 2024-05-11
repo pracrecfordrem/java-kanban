@@ -1,5 +1,7 @@
 package com.yandex.app.model;
 
+import static com.yandex.app.model.Status.*;
+
 public class SubTask extends Task {
     private final int epicId;
 
@@ -16,4 +18,5 @@ public class SubTask extends Task {
     public String toString() {
         return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicId;
     }
+
 }

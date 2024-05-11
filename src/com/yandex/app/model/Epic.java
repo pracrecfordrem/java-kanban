@@ -2,6 +2,8 @@ package com.yandex.app.model;
 
 import java.util.ArrayList;
 
+import static com.yandex.app.model.Status.*;
+
 public class Epic extends Task {
     private final ArrayList<Integer> subtaskIds;
 
@@ -24,6 +26,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + ",";
+        return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + ",";
     }
+
 }

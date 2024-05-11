@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
     String absoluteFilePath;
 
     public FileBackedTaskManager(String filePath) {
@@ -21,29 +21,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         try (FileWriter fileWriter = new FileWriter(absoluteFilePath)) {
             //int cnt = 0;
             fileWriter.write("id,type,name,status,description,epic\n");
-            for (int taskid: tasks.keySet()) {
-                fileWriter.write(tasks.get(taskid).toString()+'\n');
+            for (int taskid : tasks.keySet()) {
+                fileWriter.write(tasks.get(taskid).toString() + '\n');
             }
-            for (int epicId: epics.keySet()) {
-                fileWriter.write(epics.get(epicId).toString()+'\n');
+            for (int epicId : epics.keySet()) {
+                fileWriter.write(epics.get(epicId).toString() + '\n');
             }
-            for (int subTaskId: subtasks.keySet()) {
-                fileWriter.write(subtasks.get(subTaskId).toString()+'\n');
+            for (int subTaskId : subtasks.keySet()) {
+                fileWriter.write(subtasks.get(subTaskId).toString() + '\n');
             }
         } catch (IOException o) {
             throw new ManagerSaveException("Ошибка при работе с файлом", o);
         }
     }
+
     @Override
     public void createTask(Task task) {
         super.createTask(task);
         save();
     }
+
     @Override
     public void updateTask(int taskId, Task updatedtask) {
-        super.updateTask(taskId,updatedtask);
+        super.updateTask(taskId, updatedtask);
         save();
     }
+
     @Override
     public void createEpic(Epic epic) {
         super.createEpic(epic);

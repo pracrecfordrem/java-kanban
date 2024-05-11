@@ -2,6 +2,8 @@ package com.yandex.app.model;
 
 import java.util.Objects;
 
+import static com.yandex.app.model.Status.*;
+
 public class Task {
 
     protected String name;
@@ -51,4 +53,5 @@ public class Task {
     public String toString() {
         return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
     }
+
 }
