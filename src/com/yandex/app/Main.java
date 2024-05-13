@@ -1,6 +1,5 @@
 package com.yandex.app;
 
-import java.io.File;
 
 public class Main {
 
