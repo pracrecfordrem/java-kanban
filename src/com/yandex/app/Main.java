@@ -1,9 +1,12 @@
 package com.yandex.app;
 
+import java.io.File;
+
 public class Main {
 
     public static void main(String[] args) {
-//        String filePath = "C:\\Users\\rbarinov\\Desktop\\temp\\Tasks.txt";
+
+//          String filePath = "C:\\Users\\rbarinov\\Desktop\\temp\\Tasks.txt";
 
 //        Пользовательский сценарий №1
 //        com.yandex.app.service.TaskManager fileBackedTaskManagerFromFile = com.yandex.app.service.Managers.loadFromFile(new File(filePath));
@@ -11,7 +14,7 @@ public class Main {
 //        System.out.println(fileBackedTaskManagerFromFile.getOnlyEpics());
 //        System.out.println(fileBackedTaskManagerFromFile.getOnlySubtasks());
 //        System.out.println(fileBackedTaskManagerFromFile.getCountTasks());
-//
+
 //        //Пользовательский сценарий №2
 
 //        com.yandex.app.service.TaskManager fileBackedTaskManager = com.yandex.app.service.Managers.getDefaultFiledBacked(filePath);
@@ -50,6 +53,6 @@ public class Main {
 //
 //
 //        System.out.println("История просмотров: " + historyManager.getCustomLinkedList().getViewedTasks());
-
+//
     }
 }

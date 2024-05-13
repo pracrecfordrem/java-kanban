@@ -6,9 +6,12 @@ import com.yandex.app.model.Task;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
+    Logger logger = Logger.getLogger(FileBackedTaskManager.class.getName());
     String absoluteFilePath;
 
     public FileBackedTaskManager(String filePath) {
@@ -17,7 +20,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     void save() throws ManagerSaveException {
         try (FileWriter fileWriter = new FileWriter(absoluteFilePath)) {
-            //int cnt = 0;
             fileWriter.write("id,type,name,status,description,epic\n");
             for (int taskid : tasks.keySet()) {
                 fileWriter.write(tasks.get(taskid).toString() + '\n');
@@ -29,7 +31,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 fileWriter.write(subtasks.get(subTaskId).toString() + '\n');
             }
         } catch (IOException o) {
-            throw new ManagerSaveException("Ошибка при работе с файлом", o);
+            logger.log(Level.INFO,"Ошибка при сохранении изменений в файл: " + absoluteFilePath,o);
+            throw new ManagerSaveException("Ошибка при работе с файлом: " + absoluteFilePath, o);
         }
     }
 
