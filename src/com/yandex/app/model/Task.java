@@ -2,6 +2,8 @@ package com.yandex.app.model;
 
 import java.util.Objects;
 
+import static com.yandex.app.model.Status.*;
+
 public class Task {
 
     protected String name;
@@ -49,11 +51,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "com.yandex.app.model.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
     }
+
 }
