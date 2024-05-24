@@ -8,7 +8,6 @@ import com.yandex.app.model.Task;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -291,8 +290,10 @@ public class InMemoryTaskManager implements TaskManager {
     public boolean checkTime(Task task) {
         if (task.getStartTime().isPresent()) {
             for (Task checkedTask : prioritizedTasks) {
-                if ((task.getStartTime().get().isBefore(checkedTask.getEndTime()) && task.getStartTime().get().isAfter(checkedTask.getStartTime().get()))
-                        || (task.getEndTime().isBefore(checkedTask.getEndTime()) && task.getEndTime().isAfter(checkedTask.getStartTime().get()))) {
+                if ((task.getStartTime().get().isBefore(checkedTask.getEndTime()) &&
+                        task.getStartTime().get().isAfter(checkedTask.getStartTime().get()))
+                        || (task.getEndTime().isBefore(checkedTask.getEndTime()) &&
+                        task.getEndTime().isAfter(checkedTask.getStartTime().get()))) {
                     if (task.getId() == checkedTask.getId()) {
                         continue;
                     }
