@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task> {
 
     protected String name;
     protected String description;
@@ -34,6 +34,7 @@ public class Task implements Comparable<Task>{
         this.status = status;
         this.id = id + 1;
     }
+
     public Optional<LocalDateTime> getStartTime() {
         return Optional.ofNullable(startTime);
     }
