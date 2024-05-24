@@ -2,7 +2,6 @@ package com.yandex.app.model;
 
 import java.time.LocalDateTime;
 
-import static com.yandex.app.model.Status.*;
 
 public class SubTask extends Task {
     private final int epicId;

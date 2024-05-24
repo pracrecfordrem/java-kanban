@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.yandex.app.model.Status.*;
 
 public class Task implements Comparable<Task>{
 

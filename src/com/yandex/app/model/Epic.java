@@ -1,13 +1,9 @@
 package com.yandex.app.model;
 
-import com.yandex.app.service.InMemoryTaskManager;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static com.yandex.app.model.Status.*;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subtaskIds;
