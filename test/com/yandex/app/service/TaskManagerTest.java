@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 public class TaskManagerTest {
     TaskManager taskManager;
     @BeforeEach
@@ -16,7 +18,7 @@ public class TaskManagerTest {
     }
     @Test
     public void tasksShouldBeEqualIfIdEqual() {
-        taskManager.createTask(new Task("Встать с постели","Просто встать с постели", Status.NEW,taskManager.getCountTasks()));
+        taskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW, 100, LocalDateTime.now(),taskManager.getCountTasks()));
         Assertions.assertEquals(taskManager.getOnlyTasks().getFirst().getId() == taskManager.getOnlyTasks().getFirst().getId(), taskManager.getOnlyTasks().getFirst().equals(taskManager.getOnlyTasks().getFirst()));
     }
     @Test
@@ -27,7 +29,7 @@ public class TaskManagerTest {
     @Test
     public void subtasksShouldBeEqualIfIdEqual() {
         taskManager.createEpic(new Epic("Собраться на работу","Долго и мучительно", taskManager.getCountTasks()));
-        taskManager.createSubtask(new SubTask("Встать с постели","Просто встать с постели",Status.NEW,taskManager.getOnlyEpics().getFirst().getId(), taskManager.getCountTasks()));
+        taskManager.createSubtask(new SubTask("Встать с постели","Просто встать с постели",Status.NEW,150, LocalDateTime.now().plusMinutes(100),taskManager.getOnlyEpics().getFirst().getId(), taskManager.getCountTasks()));
         Assertions.assertEquals(taskManager.getOnlySubtasks().getFirst().getId() == taskManager.getOnlySubtasks().getFirst().getId(), taskManager.getOnlySubtasks().getFirst().equals(taskManager.getOnlySubtasks().getFirst()));
     }
     @Test
@@ -39,7 +41,7 @@ public class TaskManagerTest {
     public void canInMemoryTaskManagerAddTaskAndFindItByID() {
         String desc = "Просто встать с постели";
         String name = "Встать с постели";
-        taskManager.createTask(new Task(name,desc,Status.NEW, taskManager.getCountTasks()));
+        taskManager.createTask(new Task(name,desc,Status.NEW,100, LocalDateTime.now().minusHours(1000), taskManager.getCountTasks()));
         int newId = taskManager.getCountTasks();
         Assertions.assertTrue(taskManager.getTaskById(newId).getDescription().equals(desc) && taskManager.getTaskById(newId).getName().equals(name));
     }
@@ -59,7 +61,7 @@ public class TaskManagerTest {
         int epicId = taskManager.getOnlyEpics().getLast().getId();
         String subTaskName = "Имя сабтаска";
         String subTaskDesc = "Описание сабтаска";
-        taskManager.createSubtask(new SubTask(subTaskName, subTaskDesc, Status.NEW, epicId, taskManager.getCountTasks()));
+        taskManager.createSubtask(new SubTask(subTaskName, subTaskDesc, Status.NEW,1052, LocalDateTime.now().minusHours(1000), epicId, taskManager.getCountTasks()));
         int newId = taskManager.getCountTasks();
         Assertions.assertTrue(taskManager.getSubTaskById(newId).getDescription().equals(subTaskDesc) && taskManager.getSubTaskById(newId).getName().equals(subTaskName));
     }
