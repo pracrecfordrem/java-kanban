@@ -1,6 +1,11 @@
 package com.yandex.app;
 
 
+//import com.yandex.app.service.FileBackedTaskManager;
+//
+//import java.io.File;
+//import java.time.LocalDateTime;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,15 +18,17 @@ public class Main {
 //        com.yandex.app.service.TaskManager taskManager2 = com.yandex.app.service.Managers.getDefault();
 //        com.yandex.app.service.InMemoryHistoryManager historyManager = com.yandex.app.service.Managers.getDefaultHistory();
 //
+//        LocalDateTime firstTaskStartTime = LocalDateTime.now();
+//        LocalDateTime secondTaskStartTime = firstTaskStartTime.plusMinutes(100);
 //
-//        fileBackedTaskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW, 100, LocalDateTime.now(),fileBackedTaskManager.getCountTasks()));
+//        fileBackedTaskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW, 100, firstTaskStartTime,fileBackedTaskManager.getCountTasks()));
 //        fileBackedTaskManager.createEpic(new com.yandex.app.model.Epic("Собраться на работу", "Долго и мучительно",fileBackedTaskManager.getCountTasks()));
-//        fileBackedTaskManager.createSubtask(new com.yandex.app.model.SubTask("Собраться на работу", "Долго и мучительно",com.yandex.app.model.Status.NEW,150, LocalDateTime.now().plusMinutes(100),2,fileBackedTaskManager.getCountTasks()));
+//        fileBackedTaskManager.createSubtask(new com.yandex.app.model.SubTask("Собраться на работу", "Долго и мучительно",com.yandex.app.model.Status.NEW,150, secondTaskStartTime,2,fileBackedTaskManager.getCountTasks()));
 //
 //        fileBackedTaskManager.showAllTasks();
 //        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//        fileBackedTaskManager.updateTask(1,new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.IN_PROGRESS,100, LocalDateTime.now(),0));
-//        fileBackedTaskManager.updateSubtask(3,new com.yandex.app.model.SubTask("Собраться на работу","Долго и мучительно",com.yandex.app.model.Status.IN_PROGRESS,150,LocalDateTime.now(), 2,3));
+//        fileBackedTaskManager.updateTask(1,new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.IN_PROGRESS,100, firstTaskStartTime.plusMinutes(1),0));
+//        fileBackedTaskManager.updateSubtask(3,new com.yandex.app.model.SubTask("Собраться на работу","Долго и мучительно",com.yandex.app.model.Status.IN_PROGRESS,150,secondTaskStartTime, 2,3));
 //
 //        fileBackedTaskManager.showAllTasks();
 //        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
