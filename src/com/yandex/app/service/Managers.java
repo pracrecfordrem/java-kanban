@@ -3,6 +3,7 @@ package com.yandex.app.service;
 import com.yandex.app.model.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
 
 import static com.yandex.app.model.Status.*;
 
@@ -46,9 +47,9 @@ public class Managers {
         };
         try {
             if (valuesArr[1].equals(String.valueOf(TaskType.TASK))) {
-                return new Task(valuesArr[2],valuesArr[4],currStatus,Integer.parseInt(valuesArr[0]) - 1);
+                return new Task(valuesArr[2],valuesArr[6],currStatus,Integer.parseInt(valuesArr[4]), LocalDateTime.parse(valuesArr[5],Task.DATE_TIME_FORMATTER),Integer.parseInt(valuesArr[0]) - 1);
             } else if (valuesArr[1].equals(String.valueOf(TaskType.SUBTASK))) {
-                return new SubTask(valuesArr[2],valuesArr[4],currStatus,Integer.parseInt(valuesArr[5]),Integer.parseInt(valuesArr[0]) - 1);
+                return new SubTask(valuesArr[2],valuesArr[6],currStatus,Integer.parseInt(valuesArr[4]),LocalDateTime.parse(valuesArr[5],Task.DATE_TIME_FORMATTER),Integer.parseInt(valuesArr[7]),Integer.parseInt(valuesArr[0]) - 1);
             } else {
                 return new Epic(valuesArr[2], valuesArr[4], Integer.parseInt(valuesArr[0]) - 1);
             }

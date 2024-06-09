@@ -20,7 +20,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     void save() throws ManagerSaveException {
         try (FileWriter fileWriter = new FileWriter(absoluteFilePath)) {
-            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("id,type,name,status,description,duration,starttime,epic\n");
             for (int taskid : tasks.keySet()) {
                 fileWriter.write(tasks.get(taskid).toString() + '\n');
             }
