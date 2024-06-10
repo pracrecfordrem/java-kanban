@@ -56,7 +56,7 @@ public class InMemoryTaskManager implements TaskManager {
             if (checkTime(task)) {
                 prioritizedTasks.add(task);
             } else {
-                System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
+                System.out.println("Добавляемая задача " + task.getName() + " имеет пересечение(я) времени выполнения");
                 return;
             }
         }
@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             if (updatedtask.getStartTime().isPresent()) {
                 if (!checkTime(updatedtask)) {
-                    System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
+                    System.out.println("Добавляемая задача " + updatedtask.getName() + " имеет пересечение(я) времени выполнения");
                     return;
                 }
             }
