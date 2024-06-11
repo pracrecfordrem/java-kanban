@@ -6,14 +6,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.yandex.app.model.Status;
 import com.yandex.app.model.Task;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,16 +28,18 @@ import java.util.regex.Pattern;
 public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
-
-    public TasksHttpHandler(TaskManager taskManager, Gson gson) {
+    DateTimeFormatter DATE_TIME_FORMATTER;
+    public TasksHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
         this.taskManager = taskManager;
         this.gson = gson;
+        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
             String path = exchange.getRequestURI().getPath();
+            System.out.println(path);
             String requestMethod = exchange.getRequestMethod();
             switch (requestMethod) {
                 case "GET" : {
@@ -56,20 +65,23 @@ public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
                     break;
                 }
                 case "POST": {
-                    HttpClient client = HttpClient.newHttpClient();
-                    URI url = URI.create("http://localhost:8080" + exchange.getRequestURI());
-                    System.out.println(url);
-                    HttpRequest request = HttpRequest.newBuilder()
-                            .uri(url)
-                            .GET()
-                            .build();
-                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     if  (Pattern.matches("^/tasks$",path)) {
-                        JsonElement jsonElement = JsonParser.parseString(response.body());
+                        InputStream inputStream = exchange.getRequestBody();
+                        String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                        JsonElement jsonElement = JsonParser.parseString(body);
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        System.out.println(jsonObject);
-                        sendText(exchange,"текст");
-                        //JsonElement jsonElement = exchange.п;
+                        String name = jsonObject.get("name").getAsString();
+                        String description = jsonObject.get("description").getAsString();
+                        String status = jsonObject.get("status").getAsString();
+                        int duration = jsonObject.get("duration").getAsInt();
+                        LocalDateTime startTime = LocalDateTime.parse(jsonObject.get("startTime").getAsString(),DATE_TIME_FORMATTER);
+                        if (jsonObject.has("id")) {
+                            int taskId = jsonObject.get("id").getAsInt();
+                            taskManager.updateTask(taskId,new Task(name,description,Status.valueOf(status),duration,startTime,taskManager.getCountTasks()));
+                        } else {
+                            taskManager.createTask(new Task(name,description,Status.valueOf(status),duration,startTime,taskManager.getCountTasks()));
+                        }
+                        sendText(exchange,"Задача успешно добавлена");
                     }
                     break;
                 }

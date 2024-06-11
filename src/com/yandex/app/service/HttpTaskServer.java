@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import com.yandex.app.model.DurationAdapter;
 import com.yandex.app.model.LocalDateTimeAdapter;
+import com.yandex.app.model.Task;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ public class HttpTaskServer {
 
         return inMemoryTaskManager;
     }
+
     public static void main(String[] args) throws IOException {
         InMemoryTaskManager inMemoryTaskManager = userScenarioFirst();
 
@@ -45,7 +47,7 @@ public class HttpTaskServer {
         HttpServer httpServer = HttpServer.create();
         httpServer.bind(new InetSocketAddress(PORT), 0);
         TaskManager taskManager = Managers.getDefault();
-        httpServer.createContext("/tasks",new TasksHttpHandler(inMemoryTaskManager, gson));
+        httpServer.createContext("/tasks",new TasksHttpHandler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
         httpServer.start();
     }
 }
