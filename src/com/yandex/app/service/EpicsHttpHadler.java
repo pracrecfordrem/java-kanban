@@ -19,6 +19,7 @@ public class EpicsHttpHadler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+
     public EpicsHttpHadler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;

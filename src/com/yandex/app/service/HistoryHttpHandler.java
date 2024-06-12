@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class HistoryHttpHandler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
+
     public HistoryHttpHandler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
