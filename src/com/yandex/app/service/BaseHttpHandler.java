@@ -30,7 +30,7 @@ public class BaseHttpHandler {
         h.close();
     }
 
-    protected int parsePathId (String path) {
+    protected int parsePathId(String path) {
         try {
             return Integer.parseInt(path);
         } catch (NumberFormatException exc) {
