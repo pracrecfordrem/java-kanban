@@ -28,4 +28,4 @@ public class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
             return LocalDateTime.of(1900, 1, 1,0,0,0);
         }
     }
-} 
+}

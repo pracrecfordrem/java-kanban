@@ -1,10 +1,11 @@
-package com.yandex.app.service;
+package com.yandex.app;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import com.yandex.app.model.DurationAdapter;
 import com.yandex.app.model.LocalDateTimeAdapter;
+import com.yandex.app.service.*;
 
 
 import java.time.Duration;
@@ -36,6 +37,7 @@ public class HttpTaskServer {
         httpServer.createContext("/prioritized",new PrioritizedHttpHandler(inMemoryTaskManager, gson));
         httpServer.createContext("/history",new HistoryHttpHandler(inMemoryTaskManager, gson));
         httpServer.start();
+        httpServer.stop(3600);
     }
 
 //    public static InMemoryTaskManager userScenarioFirst() {
