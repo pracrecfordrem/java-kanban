@@ -5,7 +5,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class HistoryHttpHandler extends BaseHttpHandler implements HttpHandler {
