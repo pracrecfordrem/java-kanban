@@ -39,7 +39,6 @@ public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         try {
             String path = exchange.getRequestURI().getPath();
-            System.out.println(path);
             String requestMethod = exchange.getRequestMethod();
             switch (requestMethod) {
                 case "GET" : {
@@ -77,11 +76,22 @@ public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
                         LocalDateTime startTime = LocalDateTime.parse(jsonObject.get("startTime").getAsString(),DATE_TIME_FORMATTER);
                         if (jsonObject.has("id")) {
                             int taskId = jsonObject.get("id").getAsInt();
-                            taskManager.updateTask(taskId,new Task(name,description,Status.valueOf(status),duration,startTime,taskManager.getCountTasks()));
+                            int res = taskManager.updateTask(taskId,new Task(name,description,Status.valueOf(status),duration,startTime,taskId));
+                            if (res == 1) {
+                                sendText(exchange,"Задача успешно обновлена");
+                            } else if (res == 0) {
+                                sendNotFound(exchange, "Задача не найдена");
+                            } else if (res == -1) {
+                                sendHasInteractions(exchange, "Обновляемая задача имеет пересечения");
+                            }
                         } else {
-                            taskManager.createTask(new Task(name,description,Status.valueOf(status),duration,startTime,taskManager.getCountTasks()));
+                            int res = taskManager.createTask(new Task(name,description,Status.valueOf(status),duration,startTime,taskManager.getCountTasks()));
+                            if (res == -1) {
+                                sendHasInteractions(exchange, "Добавляемая задача имеет пересечения");
+                            } else {
+                                sendText(exchange,"Задача успешно добавлена");
+                            }
                         }
-                        sendText(exchange,"Задача успешно добавлена");
                     }
                     break;
                 }

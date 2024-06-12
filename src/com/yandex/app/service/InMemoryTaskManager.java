@@ -51,30 +51,33 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createTask(Task task) {
+    public int createTask(Task task) {
         if (task.getStartTime().isPresent()) {
             if (checkTime(task)) {
                 prioritizedTasks.add(task);
             } else {
                 System.out.println("Добавляемая задача " + task.getName() + " имеет пересечение(я) времени выполнения");
-                return;
+                return -1;
             }
         }
         tasks.put(++countTasks, task);
+        return 1;
     }
 
     @Override
-    public void updateTask(int taskId, Task updatedtask) {
+    public int updateTask(int taskId, Task updatedtask) {
         if (!tasks.containsKey(taskId)) {
             System.out.println("Изменяемая задача не найдена. Вопспользуйтесь методом добавления задачи");
+            return 0;
         } else {
             if (updatedtask.getStartTime().isPresent()) {
                 if (!checkTime(updatedtask)) {
                     System.out.println("Добавляемая задача " + updatedtask.getName() + " имеет пересечение(я) времени выполнения");
-                    return;
+                    return -1;
                 }
             }
             tasks.put(taskId, updatedtask);
+            return 1;
         }
     }
 
@@ -290,10 +293,13 @@ public class InMemoryTaskManager implements TaskManager {
     public boolean checkTime(Task task) {
         if (task.getStartTime().isPresent()) {
             for (Task checkedTask : prioritizedTasks) {
-                if (((task.getStartTime().get().isBefore(checkedTask.getEndTime()) &&
+                if ((((task.getStartTime().get().isBefore(checkedTask.getEndTime()) &&
                         task.getStartTime().get().isAfter(checkedTask.getStartTime().get())) ||
                         (task.getEndTime().isBefore(checkedTask.getEndTime()) &&
-                        task.getEndTime().isAfter(checkedTask.getStartTime().get()))) &&
+                        task.getEndTime().isAfter(checkedTask.getStartTime().get()))) ||
+                        ((task.getEndTime().isAfter(checkedTask.getStartTime().get())) && ((task.getStartTime().get().isBefore(checkedTask.getStartTime().get()) || task.getStartTime().get().isBefore(checkedTask.getEndTime()))))
+                        )
+                        &&
                         task.getId() != checkedTask.getId()) {
                     return false;
                 }

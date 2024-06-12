@@ -5,14 +5,15 @@ import com.yandex.app.model.SubTask;
 import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public interface TaskManager {
 
     int getCountTasks();
 
-    void createTask(Task task);
+    int createTask(Task task);
 
-    void updateTask(int taskId, Task updatedtask);
+    int updateTask(int taskId, Task updatedtask);
 
     void createEpic(Epic epic);
 
@@ -47,4 +48,6 @@ public interface TaskManager {
     void calculateEpicStatus(int epicId);
 
     void showAllTasks();
+
+    TreeSet<Task> getPrioritizedTasks();
 }
