@@ -6,8 +6,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class DurationAdapter extends TypeAdapter<Duration> {
 
@@ -28,4 +26,4 @@ public class DurationAdapter extends TypeAdapter<Duration> {
             return Duration.ofMinutes(0);
         }
     }
-} 
+}
