@@ -38,19 +38,19 @@ public class HttpTaskServer {
         httpServer.start();
     }
 
-    public static InMemoryTaskManager userScenarioFirst () {
-        com.yandex.app.service.InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
-
-        LocalDateTime firstTaskStartTime = LocalDateTime.now();
-        LocalDateTime secondTaskStartTime = firstTaskStartTime.plusMinutes(200);
-//        Пользовательский сценарий
-
-        inMemoryTaskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW, 100, firstTaskStartTime,inMemoryTaskManager.getCountTasks()));
-        inMemoryTaskManager.createTask(new com.yandex.app.model.Task("Задача № 2","Описание задачи",com.yandex.app.model.Status.NEW, 15, firstTaskStartTime.minusMinutes(1000),inMemoryTaskManager.getCountTasks()));
-        inMemoryTaskManager.createEpic(new com.yandex.app.model.Epic("Собраться на работу", "Долго и мучительно",inMemoryTaskManager.getCountTasks()));
-        inMemoryTaskManager.createSubtask(new com.yandex.app.model.SubTask("Собраться на работу", "Долго и мучительно",com.yandex.app.model.Status.NEW,150, secondTaskStartTime,3,inMemoryTaskManager.getCountTasks()));
-        inMemoryTaskManager.updateTask(1,new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.IN_PROGRESS,100, firstTaskStartTime.plusMinutes(1),0));
-
-        return inMemoryTaskManager;
-    }
+//    public static InMemoryTaskManager userScenarioFirst() {
+//        com.yandex.app.service.InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
+//
+//        LocalDateTime firstTaskStartTime = LocalDateTime.now();
+//        LocalDateTime secondTaskStartTime = firstTaskStartTime.plusMinutes(200);
+////        Пользовательский сценарий
+//
+//        inMemoryTaskManager.createTask(new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.NEW, 100, firstTaskStartTime,inMemoryTaskManager.getCountTasks()));
+//        inMemoryTaskManager.createTask(new com.yandex.app.model.Task("Задача № 2","Описание задачи",com.yandex.app.model.Status.NEW, 15, firstTaskStartTime.minusMinutes(1000),inMemoryTaskManager.getCountTasks()));
+//        inMemoryTaskManager.createEpic(new com.yandex.app.model.Epic("Собраться на работу", "Долго и мучительно",inMemoryTaskManager.getCountTasks()));
+//        inMemoryTaskManager.createSubtask(new com.yandex.app.model.SubTask("Собраться на работу", "Долго и мучительно",com.yandex.app.model.Status.NEW,150, secondTaskStartTime,3,inMemoryTaskManager.getCountTasks()));
+//        inMemoryTaskManager.updateTask(1,new com.yandex.app.model.Task("Встать с постели","Просто встать с постели",com.yandex.app.model.Status.IN_PROGRESS,100, firstTaskStartTime.plusMinutes(1),0));
+//
+//        return inMemoryTaskManager;
+//    }
 }
