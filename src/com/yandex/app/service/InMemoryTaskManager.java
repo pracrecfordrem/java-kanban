@@ -87,28 +87,29 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createSubtask(SubTask subtask) {
+    public int createSubtask(SubTask subtask) {
         if (subtask.getStartTime().isPresent()) {
             if (checkTime(subtask)) {
                 prioritizedTasks.add(subtask);
             } else {
                 System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                return;
+                return -1;
             }
         }
         subtasks.put(++countTasks, subtask);
         epics.get(subtask.getEpicId()).addSubtasks(subtask.getId());
         calculateEpicStatus(subtask.getEpicId());
         updateEpicDuration(subtask);
+        return 1;
     }
 
     @Override
-    public void updateSubtask(int subTaskId, SubTask subtask) {
+    public int updateSubtask(int subTaskId, SubTask subtask) {
         if (subtasks.containsKey(subTaskId)) {
             if (subtask.getStartTime().isPresent()) {
                 if (!checkTime(subtask)) {
                     System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                    return;
+                    return -1;
                 }
             }
             subtasks.put(subTaskId, subtask);
@@ -117,7 +118,9 @@ public class InMemoryTaskManager implements TaskManager {
             updateEpicDuration(subtask);
         } else {
             System.out.println("Изменяемая подзадача не найдена");
+            return 0;
         }
+        return 1;
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.yandex.app.model.Status;
-import com.yandex.app.model.Task;
+import com.yandex.app.model.SubTask;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +17,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
-public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
+public class SubtasksHttpHandler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
     DateTimeFormatter DATE_TIME_FORMATTER;
-
-    public TasksHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+    public SubtasksHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
         this.taskManager = taskManager;
         this.gson = gson;
         this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
@@ -34,30 +33,30 @@ public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
             String path = exchange.getRequestURI().getPath();
             String requestMethod = exchange.getRequestMethod();
             switch (requestMethod) {
-                case "GET": {
-                    if (Pattern.matches("^/tasks$", path)) {
-                        String response = gson.toJson(taskManager.getOnlyTasks());
-                        sendText(exchange, response);
+                case "GET" : {
+                    if (Pattern.matches("^/subtasks$",path)) {
+                        String response = gson.toJson(taskManager.getOnlySubtasks());
+                        sendText(exchange,response);
                         return;
                     }
-                    if (Pattern.matches("^/tasks/\\d+$", path)) {
-                        int id = parsePathId(path.replace("/tasks/", ""));
-                        if (taskManager.getTaskById(id) == null) {
-                            sendNotFound(exchange, "Задача не найдена");
+                    if (Pattern.matches("^/subtasks/\\d+$",path)) {
+                        int id = parsePathId(path.replace("/subtasks/",""));
+                        if (taskManager.getSubTaskById(id) == null) {
+                            sendNotFound(exchange,"Подзадача не найдена");
                             return;
                         }
                         if (id != -1) {
-                            String response = gson.toJson(taskManager.getTaskById(id));
-                            sendText(exchange, response);
+                            String response = gson.toJson(taskManager.getSubTaskById(id));
+                            sendText(exchange,response);
                         } else {
                             System.out.println("Получен некорректный ид:" + id);
-                            exchange.sendResponseHeaders(405, 0);
+                            exchange.sendResponseHeaders(405,0);
                         }
                     }
                     break;
                 }
                 case "POST": {
-                    if (Pattern.matches("^/tasks$", path)) {
+                    if  (Pattern.matches("^/subtasks$",path)) {
                         InputStream inputStream = exchange.getRequestBody();
                         String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                         JsonElement jsonElement = JsonParser.parseString(body);
@@ -66,39 +65,40 @@ public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
                         String description = jsonObject.get("description").getAsString();
                         String status = jsonObject.get("status").getAsString();
                         int duration = jsonObject.get("duration").getAsInt();
-                        LocalDateTime startTime = LocalDateTime.parse(jsonObject.get("startTime").getAsString(), DATE_TIME_FORMATTER);
+                        LocalDateTime startTime = LocalDateTime.parse(jsonObject.get("startTime").getAsString(),DATE_TIME_FORMATTER);
+                        int epicId = jsonObject.get("epicId").getAsInt();
                         if (jsonObject.has("id")) {
-                            int taskId = jsonObject.get("id").getAsInt();
-                            int res = taskManager.updateTask(taskId, new Task(name, description, Status.valueOf(status), duration, startTime, taskId));
+                            int subtaskId = jsonObject.get("id").getAsInt();
+                            int res = taskManager.updateSubtask(subtaskId,new SubTask(name,description,Status.valueOf(status),duration,startTime,epicId,subtaskId));
                             if (res == 1) {
-                                sendText(exchange, "Задача успешно обновлена");
+                                sendText(exchange,"Подзадача успешно обновлена");
                             } else if (res == 0) {
-                                sendNotFound(exchange, "Задача не найдена");
+                                sendNotFound(exchange, "Подзадача не найдена");
                             } else if (res == -1) {
-                                sendHasInteractions(exchange, "Обновляемая задача имеет пересечения");
+                                sendHasInteractions(exchange, "Обновляемая Подзадача имеет пересечения");
                             }
                         } else {
-                            int res = taskManager.createTask(new Task(name, description, Status.valueOf(status), duration, startTime, taskManager.getCountTasks()));
+                            int res = taskManager.createSubtask(new SubTask(name,description,Status.valueOf(status),duration,startTime,epicId,taskManager.getCountTasks()));
                             if (res == -1) {
-                                sendHasInteractions(exchange, "Добавляемая задача имеет пересечения");
+                                sendHasInteractions(exchange, "Добавляемая Подзадача имеет пересечения");
                             } else {
-                                sendText(exchange, "Задача успешно добавлена");
+                                sendText(exchange,"Подзадача успешно добавлена");
                             }
                         }
                     }
                     break;
                 }
                 case "DELETE": {
-                    if (Pattern.matches("^/tasks/\\d+$", path)) {
-                        int taskId = parsePathId(path.replace("/tasks/", ""));
-                        taskManager.deleteTask(taskId);
-                        sendText(exchange, "Задача с ид " + taskId + " была удалена");
+                    if (Pattern.matches("^/subtasks/\\d+$",path)) {
+                        int subtaskId = parsePathId(path.replace("/subtasks/",""));
+                        taskManager.deleteSubTask(subtaskId);
+                        sendText(exchange,"Подзадача с ид " + subtaskId + " была удалена");
                     }
                     break;
                 }
                 default: {
                     System.out.println("Ожидается GET, POST или DELETE запрос, вместо чего получен - " + requestMethod);
-                    exchange.sendResponseHeaders(405, 0);
+                    exchange.sendResponseHeaders(405,0);
                 }
 
             }
