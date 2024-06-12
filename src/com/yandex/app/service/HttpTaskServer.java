@@ -30,11 +30,11 @@ public class HttpTaskServer {
 
         HttpServer httpServer = HttpServer.create();
         httpServer.bind(new InetSocketAddress(PORT), 0);
-        httpServer.createContext("/tasks",new TasksHttpHandler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
-        httpServer.createContext("/subtasks",new SubtasksHttpHandler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
-        httpServer.createContext("/epics",new EpicsHttpHadler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
-        httpServer.createContext("/prioritized",new PrioritizedHttpHandler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
-        httpServer.createContext("/history",new HistoryHttpHandler(inMemoryTaskManager, gson, Task.DATE_TIME_FORMATTER));
+        httpServer.createContext("/tasks",new TasksHttpHandler(inMemoryTaskManager, gson));
+        httpServer.createContext("/subtasks",new SubtasksHttpHandler(inMemoryTaskManager, gson));
+        httpServer.createContext("/epics",new EpicsHttpHadler(inMemoryTaskManager, gson));
+        httpServer.createContext("/prioritized",new PrioritizedHttpHandler(inMemoryTaskManager, gson));
+        httpServer.createContext("/history",new HistoryHttpHandler(inMemoryTaskManager, gson));
         httpServer.start();
     }
 

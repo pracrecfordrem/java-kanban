@@ -20,12 +20,11 @@ import java.util.regex.Pattern;
 public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
-    DateTimeFormatter DATE_TIME_FORMATTER;
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
 
-    public TasksHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+    public TasksHttpHandler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override

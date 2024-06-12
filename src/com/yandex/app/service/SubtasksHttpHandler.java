@@ -18,13 +18,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class SubtasksHttpHandler extends BaseHttpHandler implements HttpHandler {
+
     TaskManager taskManager;
     Gson gson;
-    DateTimeFormatter DATE_TIME_FORMATTER;
-    public SubtasksHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+
+    public SubtasksHttpHandler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override

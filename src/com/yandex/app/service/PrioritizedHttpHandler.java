@@ -9,13 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class PrioritizedHttpHandler extends BaseHttpHandler implements HttpHandler {
+
     TaskManager taskManager;
     Gson gson;
-    DateTimeFormatter DATE_TIME_FORMATTER;
-    public PrioritizedHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+
+    public PrioritizedHttpHandler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override

@@ -11,11 +11,9 @@ import java.util.regex.Pattern;
 public class HistoryHttpHandler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
-    DateTimeFormatter DATE_TIME_FORMATTER;
-    public HistoryHttpHandler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+    public HistoryHttpHandler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override

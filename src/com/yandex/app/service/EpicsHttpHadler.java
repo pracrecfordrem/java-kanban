@@ -7,25 +7,21 @@ import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.yandex.app.model.Epic;
-import com.yandex.app.model.Status;
-import com.yandex.app.model.SubTask;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class EpicsHttpHadler extends BaseHttpHandler implements HttpHandler {
     TaskManager taskManager;
     Gson gson;
-    DateTimeFormatter DATE_TIME_FORMATTER;
-    public EpicsHttpHadler(TaskManager taskManager, Gson gson, DateTimeFormatter DATE_TIME_FORMATTER) {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+    public EpicsHttpHadler(TaskManager taskManager, Gson gson) {
         this.taskManager = taskManager;
         this.gson = gson;
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
     }
 
     @Override
