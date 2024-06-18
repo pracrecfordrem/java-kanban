@@ -51,30 +51,33 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createTask(Task task) {
+    public int createTask(Task task) {
         if (task.getStartTime().isPresent()) {
             if (checkTime(task)) {
                 prioritizedTasks.add(task);
             } else {
-                System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                return;
+                System.out.println("Добавляемая задача " + task.getName() + " имеет пересечение(я) времени выполнения");
+                return -1;
             }
         }
         tasks.put(++countTasks, task);
+        return 1;
     }
 
     @Override
-    public void updateTask(int taskId, Task updatedtask) {
+    public int updateTask(int taskId, Task updatedtask) {
         if (!tasks.containsKey(taskId)) {
             System.out.println("Изменяемая задача не найдена. Вопспользуйтесь методом добавления задачи");
+            return 0;
         } else {
             if (updatedtask.getStartTime().isPresent()) {
                 if (!checkTime(updatedtask)) {
-                    System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                    return;
+                    System.out.println("Добавляемая задача " + updatedtask.getName() + " имеет пересечение(я) времени выполнения");
+                    return -1;
                 }
             }
             tasks.put(taskId, updatedtask);
+            return 1;
         }
     }
 
@@ -84,28 +87,29 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createSubtask(SubTask subtask) {
+    public int createSubtask(SubTask subtask) {
         if (subtask.getStartTime().isPresent()) {
             if (checkTime(subtask)) {
                 prioritizedTasks.add(subtask);
             } else {
                 System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                return;
+                return -1;
             }
         }
         subtasks.put(++countTasks, subtask);
         epics.get(subtask.getEpicId()).addSubtasks(subtask.getId());
         calculateEpicStatus(subtask.getEpicId());
         updateEpicDuration(subtask);
+        return 1;
     }
 
     @Override
-    public void updateSubtask(int subTaskId, SubTask subtask) {
+    public int updateSubtask(int subTaskId, SubTask subtask) {
         if (subtasks.containsKey(subTaskId)) {
             if (subtask.getStartTime().isPresent()) {
                 if (!checkTime(subtask)) {
                     System.out.println("Добавляемая задача имеет пересечение(я) времени выполнения");
-                    return;
+                    return -1;
                 }
             }
             subtasks.put(subTaskId, subtask);
@@ -114,7 +118,9 @@ public class InMemoryTaskManager implements TaskManager {
             updateEpicDuration(subtask);
         } else {
             System.out.println("Изменяемая подзадача не найдена");
+            return 0;
         }
+        return 1;
     }
 
     @Override
@@ -290,10 +296,13 @@ public class InMemoryTaskManager implements TaskManager {
     public boolean checkTime(Task task) {
         if (task.getStartTime().isPresent()) {
             for (Task checkedTask : prioritizedTasks) {
-                if (((task.getStartTime().get().isBefore(checkedTask.getEndTime()) &&
+                if ((((task.getStartTime().get().isBefore(checkedTask.getEndTime()) &&
                         task.getStartTime().get().isAfter(checkedTask.getStartTime().get())) ||
                         (task.getEndTime().isBefore(checkedTask.getEndTime()) &&
-                        task.getEndTime().isAfter(checkedTask.getStartTime().get()))) &&
+                        task.getEndTime().isAfter(checkedTask.getStartTime().get()))) ||
+                        ((task.getEndTime().isAfter(checkedTask.getStartTime().get())) && ((task.getStartTime().get().isBefore(checkedTask.getStartTime().get()) || task.getStartTime().get().isBefore(checkedTask.getEndTime()))))
+                        )
+                        &&
                         task.getId() != checkedTask.getId()) {
                     return false;
                 }
